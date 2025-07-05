@@ -5,12 +5,15 @@ import com.shreyash.taskmanager.dto.TaskRequestDto;
 import com.shreyash.taskmanager.dto.TaskResponseDto;
 import com.shreyash.taskmanager.enums.TaskPriority;
 import com.shreyash.taskmanager.enums.TaskStatus;
+import com.shreyash.taskmanager.impl.TaskServiceImpl;
 import com.shreyash.taskmanager.service.TaskService;
+import com.shreyash.taskmanager.service.TaskServiceImplTest;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,10 +27,12 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
 @WebMvcTest(TaskController.class)
 @AutoConfigureMockMvc
@@ -37,7 +42,7 @@ public class TaskControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private TaskService taskService;
+    private TaskServiceImpl taskService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -73,8 +78,9 @@ public class TaskControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().string("Task Created"));
+                .andExpect(content().string("Task Created")); // FIXED
     }
+
 
     @Test
     void testUpdateTask_Success() throws Exception {
@@ -86,8 +92,9 @@ public class TaskControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().string("Task Updated"));
+                .andExpect(content().string("Task Updated")); // FIXED
     }
+
 
     @Test
     void testDeleteTask_Success() throws Exception {
@@ -96,25 +103,27 @@ public class TaskControllerTest {
 
         mockMvc.perform(post("/api/tasks/delete/1"))
                 .andExpect(status().isOk())
-                .andExpect((ResultMatcher) content().string("Task Deleted"));
+                .andExpect(content().string("Task Deleted")); // FIXED
     }
+
 
     @Test
     void testGetTaskById_Found() throws Exception {
         TaskResponseDto response = sampleTaskResponse();
         Mockito.when(taskService.getTaskById(1L)).thenReturn(response);
 
-        mockMvc.perform(post("/api/tasks/get/1"))
+        mockMvc.perform(get("/api/tasks/get/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.title").value("Test Task"));
+                .andExpect(jsonPath("$.title").value("Sample Task")); // Fixed
     }
+
 
     @Test
     void testGetTaskById_NotFound() throws Exception {
         Mockito.when(taskService.getTaskById(1L)).thenReturn(null);
 
-        mockMvc.perform(post("/api/tasks/get/1"))
+        mockMvc.perform(get("/api/tasks/get/1"))
                 .andExpect(status().isNotFound());
     }
 

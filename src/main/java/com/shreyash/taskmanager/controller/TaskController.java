@@ -40,7 +40,7 @@ public class TaskController {
     }
 
     // Get Task by ID
-    @PostMapping("/get/{id}")
+    @GetMapping("/get/{id}")
     public ResponseEntity<TaskResponseDto> getTaskById(@PathVariable ("id") Long id) {
         TaskResponseDto response = taskService.getTaskById(id);
         if (response != null) {
