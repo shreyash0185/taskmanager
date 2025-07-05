@@ -32,4 +32,44 @@ public class TaskRequestDto {
 
     @FutureOrPresent(message = "Due date must be today or in the future")
     private LocalDate dueDate;
+
+    public @NotBlank(message = "Title is required") @Size(min = 3, max = 100, message = "Title must be between 3 and 100 characters") String getTitle() {
+        return title;
+    }
+
+    public void setTitle(@NotBlank(message = "Title is required") @Size(min = 3, max = 100, message = "Title must be between 3 and 100 characters") String title) {
+        this.title = title;
+    }
+
+    public @NotBlank(message = "Description is required") String getDescription() {
+        return description;
+    }
+
+    public void setDescription(@NotBlank(message = "Description is required") String description) {
+        this.description = description;
+    }
+
+    public @NotNull(message = "Status is required") TaskStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(@NotNull(message = "Status is required") TaskStatus status) {
+        this.status = status;
+    }
+
+    public @NotNull(message = "Priority is required") TaskPriority getPriority() {
+        return priority;
+    }
+
+    public void setPriority(@NotNull(message = "Priority is required") TaskPriority priority) {
+        this.priority = priority;
+    }
+
+    public @FutureOrPresent(message = "Due date must be today or in the future") LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(@FutureOrPresent(message = "Due date must be today or in the future") LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
 }

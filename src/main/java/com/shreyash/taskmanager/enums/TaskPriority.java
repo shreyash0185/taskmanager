@@ -1,10 +1,24 @@
 package com.shreyash.taskmanager.enums;
 
-public class TaskPriority {
+public enum TaskPriority {
 
-    public static final String LOW = "LOW";
-    public static final String MEDIUM = "MEDIUM";
-    public static final String HIGH = "HIGH";
-    public static final String URGENT = "URGENT";
+    LOW("Low"),
+    MEDIUM("Medium"),
+    HIGH("High");
+
+    private final String displayName;
+
+    TaskPriority(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    @Override
+    public String toString() {
+        return displayName;
+    }
 
 }

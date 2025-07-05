@@ -1,12 +1,25 @@
 package com.shreyash.taskmanager.enums;
 
-public class TaskStatus {
+public enum TaskStatus {
 
-    public static final String PENDING = "PENDING";
-    public static final String IN_PROGRESS = "IN_PROGRESS";
-    public static final String COMPLETED = "COMPLETED";
-    public static final String ON_HOLD = "ON_HOLD";
-    public static final String CANCELLED = "CANCELLED";
+    PENDING("Pending"),
+    IN_PROGRESS("In Progress"),
+    COMPLETED("Completed");
+
+    private final String displayName;
+
+    TaskStatus(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    @Override
+    public String toString() {
+        return displayName;
+    }
 
 
 }
